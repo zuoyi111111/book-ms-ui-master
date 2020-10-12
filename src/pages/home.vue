@@ -1,7 +1,7 @@
 <template>
     <el-container>
       <el-header class="homeHeader">
-          <div class="title">微图书管理平台</div>
+          <div class="title">爱心图书众筹系统</div>
           <div>
               <el-button :icon="collapseClass" type="text" @click="collapseHandler" style="color: #000000; font-size:16px"></el-button>
               <el-button icon="el-icon-bell" type="text" style=";color: #000000; font-size:16px;margin-right: 12px;"></el-button>
@@ -132,7 +132,7 @@ import { menus, author } from '../utils/dictionary'
         },
         mounted() {
              console.log(1111)
-            document.title = "微图书"
+            document.title = "爱心图书众筹系统"
             //this.head = this.config.baseApi + "/" + this.db.get("USER").headImgUrl;
            // this.getUserMenu();
            console.log(1111)

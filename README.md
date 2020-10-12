@@ -1,4 +1,4 @@
-<h1 align="center"> 微图书管理平台 </h1>
+<h1 align="center"> 爱心图书众筹系统 </h1>
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">

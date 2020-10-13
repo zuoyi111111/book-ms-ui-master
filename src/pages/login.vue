@@ -10,7 +10,7 @@
                     element-loading-spinner="el-icon-loading"
                     element-loading-background="rgba(0, 0, 0, 0.8)"
                     class="loginContainer">
-                    <h3 class="loginTitle">欢迎使用微图书平台</h3>
+                    <h3 class="loginTitle">欢迎使用爱心图书众筹系统</h3>
                     <el-form-item prop="userId">
                         <el-input v-model="loginForm.loginName" placeholder="用户名" prefix-icon="el-icon-s-custom"></el-input>
                     </el-form-item>
@@ -59,7 +59,7 @@
         },
         created(){
             this.db.save("LOGINFLAG","0")
-            document.title = "微图书"
+            document.title = "爱心图书众筹系统"
         },
         methods:{
             submitForm(loginForm) {

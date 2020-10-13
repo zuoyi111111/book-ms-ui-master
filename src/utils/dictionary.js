@@ -35,6 +35,104 @@ export const menus = [
         }]
     },
     {
+      "id":1,
+      "name":"图书捐赠",
+      "icon":"el-icon-s-management",
+      "path":"",
+      "children":[
+        {
+          "id":18,
+          "name":"众筹图书列表",
+          "icon":"",
+          "path":"/book-list",
+          "children":null
+        },
+        {
+          "id":31,
+          "name":"众筹图书",
+          "icon":"",
+          "path":"/category-list",
+          "children":null
+        },
+        {
+          "id":28,
+          "name":"个人捐赠",
+          "icon":"",
+          "path":"/personal-donate",
+          "children":null
+        },
+        {
+          "id":44,
+          "name":"捐赠记录",
+          "icon":"",
+          "path":"/donate-list",
+          "children":null
+        }, {
+          "id":44,
+          "name":"审核列表",
+          "icon":"",
+          "path":"/welfare/girls",
+          "children":null
+        }]
+    },
+    {
+      "id":2,
+      "name":"众筹留言板",
+      "icon":"el-icon-s-management",
+      "path":"",
+      "children":[{
+        "id":8,
+        "name":"留言列表",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }]
+    },
+    {
+      "id":3,
+      "name":"服务模块",
+      "icon":"el-icon-s-management",
+      "path":"",
+      "children":[{
+        "id":8,
+        "name":"客服信息",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }]
+    },
+    {
+      "id":3,
+      "name":"新闻模块",
+      "icon":"el-icon-s-management",
+      "path":"",
+      "children":[{
+        "id":8,
+        "name":"爱心捐赠公示",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }, {
+        "id":8,
+        "name":"合作商家",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }, {
+        "id":8,
+        "name":"公益事迹",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }, {
+        "id":8,
+        "name":"志愿者",
+        "icon":"",
+        "path":"/org/dept-list",
+        "children":null
+      }]
+    },
+    {
       "id":2,
       "name":"后台管理",
       "icon":"fa fa-gear",
@@ -68,7 +166,7 @@ export const menus = [
           "path":"/org/permission-list",
           "children":null
         }]
-    }]
+    },]
 
 export const author = [
     {

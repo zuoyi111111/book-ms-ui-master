@@ -46,9 +46,14 @@
                         if (resp && resp.code==200) {
                              this.$message({
                                 type: 'success',
-                                message: '众筹图书成功！！'
+                                message: '捐赠成功！！'
                             });
                             this.$router.push('/donate-list');
+                        } else {
+                             this.$message({
+                                type: 'error',
+                                message: '捐赠失败！！'
+                            });
                         }
                     })
                 } else {

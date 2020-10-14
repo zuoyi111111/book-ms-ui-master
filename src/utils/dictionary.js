@@ -102,13 +102,6 @@ export const menus = [
                 "icon": "",
                 "path": "/dictionary/list",
                 "children": null
-            },
-            {
-                "id": 16,
-                "name": "审核列表",
-                "icon": "",
-                "path": "/dictionary/list",
-                "children": null
             }]
     }, {
         "id": 4,

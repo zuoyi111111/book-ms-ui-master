@@ -84,21 +84,21 @@ export const menus = [
             },
             {
                 "id": 13,
-                "name": "众筹图书",
+                "name": "发起众筹图书",
                 "icon": "",
                 "path": "/book-list",
                 "children": null
             },
             {
                 "id": 14,
-                "name": "个人捐赠",
+                "name": "发起个人捐赠",
                 "icon": "",
                 "path": "/category-list",
                 "children": null
             },
             {
                 "id": 15,
-                "name": "捐赠记录",
+                "name": "捐赠列表",
                 "icon": "",
                 "path": "/dictionary/list",
                 "children": null

@@ -18,6 +18,7 @@ const categoryAdd = r => require.ensure([], () => r(require('@/pages/book/catego
 const categoryEdit = r => require.ensure([], () => r(require('@/pages/book/category-edit')), 'category-edit');
 const donateList = r => require.ensure([], () => r(require('@/pages/donate/donate-list')), 'donate-list');
 const personalDonate = r => require.ensure([], () => r(require('@/pages/donate/personal-donate')), 'personal-donate');
+const needList = r => require.ensure([], () => r(require('@/pages/donate/need-list')), 'need-list');
 
 
 const constRouter = [
@@ -104,7 +105,14 @@ const constRouter = [
 				name: '个人捐赠',
 				component: personalDonate,
 				hidden: false 
+			},
+			{
+				path: '/need-list',
+				name: '需求列表',
+				component: needList,
+				hidden: false 
 			}
+			
 			
 		]
 	},

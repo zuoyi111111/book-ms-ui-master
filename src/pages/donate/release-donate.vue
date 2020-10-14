@@ -2,25 +2,21 @@
     <div class="defaultForm">
         <el-form :model="dataForm" :rules="rules" ref="dataForm" size="small"
             label-width="135px" >
-            <el-form-item label="类型名称名称" prop="typeName">
-                <el-input v-model="dataForm.typeName"></el-input>
+            <el-form-item label="众筹图书名称" prop="needBookName">
+                <el-input v-model="dataForm.needBookName"></el-input>
             </el-form-item>
-            <!-- <el-form-item label="头像" prop="attachmentIds">
-                <el-upload
-                    name="file"
-                    class="avatar-uploader"
-                    action="nothing"
-                    :http-request="upload"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-            </el-form-item> -->
-            <!-- <el-form-item label="简介" prop="introduction">
-                <el-input v-model="dataForm.introduction"></el-input>
-            </el-form-item> -->
+              <el-form-item label="众筹图书数量" prop="needBookNum">
+                <el-input-number v-model="dataForm.needBookNum" :min="1" label="图书数量"></el-input-number>
+            </el-form-item>
+              <el-form-item label="众筹区域" prop="needArea">
+                <el-input v-model="dataForm.needArea"></el-input>
+            </el-form-item>
+              <el-form-item label="拥有数量" prop="haveNum">
+               <el-input-number v-model="dataForm.haveNum" :min="1" label="拥有数量"></el-input-number>
+            </el-form-item>
+             <el-form-item label="描述" prop="needDesc">
+                <el-input v-model="dataForm.needDesc"></el-input>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('dataForm')">保存</el-button>
                 <el-button @click="$router.back(-1)">返回</el-button>
@@ -35,13 +31,15 @@
             return {
                 imageUrl:'',
                 dataForm: {
-                    typeName: ''
+                    needBookNum: 1
                 },
+                num1: 1,
+                num2: 1,
                 rules: {
-                    introduction: [
-                        { required: true, message: '请输入简介', trigger: 'blur' }
-                    ],typeName: [
-                        { required: true, message: '请输入名称', trigger: 'blur' }
+                    needBookName: [
+                        { required: true, message: '请输入图书名称', trigger: 'blur' }
+                    ], needBookNum: [
+                        { required: true, message: '请输入图书数量', trigger: 'blur' }
                     ]
                 }
             };
@@ -53,9 +51,13 @@
             submitForm(dataForm) {
                 this.$refs[dataForm].validate((valid) => {
                 if (valid) {
-                    this.postRequest('/bookType/editBookType.json', this.dataForm).then(resp => {
+                    this.postRequest('/bookDonate/crowdFunding', this.dataForm).then(resp => {
                         if (resp && resp.code==200) {
-                            this.$router.push('/category-list');
+                             this.$message({
+                                type: 'success',
+                                message: '众筹图书成功！！'
+                            });
+                            this.$router.push('/need-list');
                         }
                     })
                 } else {

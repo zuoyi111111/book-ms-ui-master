@@ -1,163 +1,138 @@
 <template>
-    <div>
-        <!--工具栏-->
-        <el-form :inline="true" :model="formInline" size="mini" class="toolbar">
-            <el-form-item label="关键字" >
-                <el-input v-model="formInline.bookName" placeholder="书籍名称"></el-input>
+    <div class="defaultForm">
+        <el-form :model="dataForm" :rules="rules" ref="dataForm" size="small"
+            label-width="135px" >
+            <el-form-item label="捐赠图书名称" prop="donationBookName">
+                <el-input v-model="dataForm.donationBookName"></el-input>
             </el-form-item>
-           <el-form-item label="分类" prop="bookType">
-                <el-select v-model="formInline.bookType" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in categoryOptions" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="频道" prop="dicChannel">
-                <el-select v-model="formInline.dicChannel" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in channelOptions" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
-                </el-select>
+              <el-form-item label="捐赠图书数量" prop="donationBookNum">
+                <el-input-number v-model="dataForm.donationBookNum" :min="1" label="图书数量"></el-input-number>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSearch">查询</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="gotoAdd" >新增</el-button>
+                <el-button type="primary" @click="submitForm('dataForm')">保存</el-button>
+                <el-button @click="$router.back(-1)">返回</el-button>
             </el-form-item>
         </el-form>
-        <!--表格区-->
-        <el-table :data="tableData" border style="width: 100%;" size="small">
-            <template slot="empty">
-                还没有数据呢~ (⊙︿⊙)
-            </template>
-            <el-table-column prop="donationBookName" label="捐赠图书名称" width="100">
-            </el-table-column>
-            <el-table-column prop="donationBookNum" label="捐赠数量" >
-            </el-table-column>
-            <el-table-column prop="donationType" label="捐赠类型" width="100" >
-            </el-table-column>
-             <el-table-column prop="donationUserName" label="捐赠人姓名" width="100" >
-            </el-table-column>
-             <el-table-column prop="recipientsArea" label="接收地区" width="100" >
-            </el-table-column>
-              <el-table-column prop="recipientsUserName" label="接收人姓名" width="100" >
-            </el-table-column>
-             <el-table-column prop="approveStatus" label="捐赠状态" width="100" >
-            </el-table-column>
-            <el-table-column align="center" label="操作" width="240">
-            <template slot-scope="scope" >
-                <!-- <el-button size="mini" type="success" plain 
-                @click="handleChapter(scope.row.id)">章节</el-button> -->
-                <el-button size="mini" type="primary" plain 
-                @click="handleEdit(scope.row.id)">编辑</el-button>
-                <el-button size="mini" type="danger"  plain 
-                @click="handleDelete(scope.row.bookId)">删除</el-button>
-            </template>
-            </el-table-column>
-        </el-table>
-        <!--分页区-->
-        <div class="Pagination" style="text-align: left; margin-top: 10px;">
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-size="limit"
-                layout="total, prev, pager, next"
-                :total="total">
-            </el-pagination>
-        </div>
     </div>
 </template>
 
 <script>
-  export default {
-    data() {
-        return {
-            categoryOptions:[],
-            channelOptions:[],
-            tableData: [],
-            limit: 10,
-            total: 0,
-            currentPage: 1,
-            formInline:{
-                bookName:'',
-                bookType:''
-            }
-        }
-    },
-    created(){
-        console.log(11)
-        this.getListData();
-        this.getDictionaryOptions("category");
-        // this.getDictionaryOptions("channel");
-    },
-    methods:{
-        handleChapter(id){
-            this.$router.push('/book/chapter-list/'+id);
+    export default {
+        data() {
+            return {
+                imageUrl:'',
+                dataForm: {
+                    donationBookNum: 1
+                },
+                num1: 1,
+                num2: 1,
+                rules: {
+                    donationBookName: [
+                        { required: true, message: '请输入图书名称', trigger: 'blur' }
+                    ], donationBookNum: [
+                        { required: true, message: '请输入图书数量', trigger: 'blur' }
+                    ]
+                }
+            };
         },
-        handleEdit(id) {
-            this.$router.push('/book/book-edit/'+id);
+        created(){
+            this.initData();
         },
-        handleDelete(id) {
-            this.$confirm('确定要删除吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.getRequest('/bookInfo/deleteBook.json',{id:id}).then(resp => {
+        methods: {
+            submitForm(dataForm) {
+                this.$refs[dataForm].validate((valid) => {
+                if (valid) {
+                    this.postRequest('/bookDonate/personalDonation', this.dataForm).then(resp => {
+                        if (resp && resp.code==200) {
+                             this.$message({
+                                type: 'success',
+                                message: '众筹图书成功！！'
+                            });
+                            this.$router.push('/donate-list');
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+                });
+            },
+            initData(){
+                // 详情
+                let id = this.$route.query.id;
+                this.getRequest('/bookType/getDetail.json', {id:id}).then(resp => {
                     if (resp.code == 200) {
-                        this.getListData();
+                        this.dataForm = resp.data;
+                        this.dataForm.attachmentIds = [];
+                        // this.imageUrl = this.config.baseApi + "/" + resp.data.headImgUrl;
                     }
                 })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消操作'
-                });
-            });
-            
-        },
-        getDictionaryOptions(type){
-            // 字典数据源
-            this.postRequest('/bookType/getBookTypeInfo.json', {pageNo:1, pageSize:100}).then(resp => {
-                if (resp.code == 200) {
-                    this.tableData = resp.data.pageData;
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isLt1M = file.size / 1024 / 1024 < 1;
+
+                if (!isJPG && !isPNG) {
+                    this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
                 }
-            })
-        },
-        getListData(){
-            let form = {
-                pageNo:this.currentPage,
-                pageSize:this.limit,
-               // bookType:this.formInline.bookType,
-                // dicChannel:this.formInline.dicChannel,
-                //bookName:this.formInline.bookName
+                
+                if (!isLt1M) {
+                    this.$message.error('上传头像图片大小不能超过 1MB!');
+                }
+                return isJPG && isLt1M;
+            },
+            upload(item){
+                let formData = new FormData()
+                formData.append('file', item.file)
+                formData.append('tableCode', 'author')
+                formData.append('tableField', 'head')
+                this.postRequest('/upload', formData).then(resp => {
+                    if (resp && resp.code==200) {
+                        let attachment = resp.data.attachments[0];
+                        this.dataForm.attachmentIds[0] = attachment.id;
+                        this.dataForm.headImgUrl = attachment.path;
+                        this.imageUrl = this.config.baseApi + "/" + attachment.path;
+                        if (success.data.msg) {
+                            Message.success({message: success.data.msg})
+                        }
+                    }
+                })
             }
-            this.getRequest('/bookDonate/donationBookList', form).then(resp => {
-                if (resp.code == 200) {
-                    this.tableData = resp.data.pageData;
-                    // this.tableData = resp.data.pageData;
-                    // this.total = resp.data.totalCount
-                }
-            })
-        },
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            this.currentPage = val;
-            this.getListData();
-        },
-        onSearch(){
-            this.getListData();
-        },
-        gotoAdd(){
-            this.$router.push("/book-add");
         }
     }
-  };
 </script>
 
 <style scoped>
-    .toolbar{
-        height: 40px;
+    .defaultForm {
+        margin-top: 20px;
+        width: 85%
+    }
+
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 128px;
+        height: 128px;
+        line-height: 128px;
+        text-align: center;
+    }
+    .avatar {
+        width: 128px;
+        height: 128px;
+        display: block;
     }
 </style>

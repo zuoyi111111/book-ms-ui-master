@@ -86,14 +86,14 @@ export const menus = [
                 "id": 13,
                 "name": "发起众筹图书",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/release-donate",
                 "children": null
             },
             {
                 "id": 14,
                 "name": "发起个人捐赠",
                 "icon": "",
-                "path": "/category-list",
+                "path": "/personal-donate",
                 "children": null
             },
             {

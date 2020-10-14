@@ -79,7 +79,7 @@ export const menus = [
                 "id": 12,
                 "name": "众筹图书列表",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/need-list",
                 "children": null
             },
             {
@@ -100,7 +100,7 @@ export const menus = [
                 "id": 15,
                 "name": "捐赠列表",
                 "icon": "",
-                "path": "/dictionary/list",
+                "path": "/donate-list",
                 "children": null
             }]
     }, {

@@ -27,34 +27,33 @@
             <template slot="empty">
                 还没有数据呢~ (⊙︿⊙)
             </template>
-            <el-table-column prop="donationBookName" label="捐赠图书名称" width="100">
+            <el-table-column prop="needBookName" label="众筹图书名称" width="100">
             </el-table-column>
-            <el-table-column prop="donationBookNum" label="捐赠数量" >
+            <el-table-column prop="haveNum" label="拥有数量" width="100">
             </el-table-column>
             <el-table-column label="捐赠类型" width="100" >
                  <template  slot-scope="scope" >
                     <i>{{scope.row.donationType==1?"个人捐赠":"众筹捐赠"}}</i>
                 </template>
             </el-table-column>
-             <el-table-column prop="donationUserName" label="捐赠人姓名" width="100" >
+             <el-table-column prop="needArea" label="需要地区" width="100" >
             </el-table-column>
-             <el-table-column prop="recipientsArea" label="接收地区" width="100" >
+             <el-table-column prop="needBookNum" label="需要数量" width="100" >
             </el-table-column>
-              <el-table-column prop="recipientsUserName" label="接收人姓名" width="100" >
+              <el-table-column prop="needUserName" label="需要人姓名" width="100" >
             </el-table-column>
-             <el-table-column label="捐赠状态" width="100" >
-                  <template  slot-scope="scope" >
-                    <i>{{handleType(scope.row.approveStatus)}}</i>
-                </template>
+              <el-table-column prop="needDesc" label="描述" >
+            </el-table-column>
+            <el-table-column prop="statusDesc" label="状态" width="100" >
             </el-table-column>
             <el-table-column align="center" label="操作" width="240">
             <template slot-scope="scope" >
                 <!-- <el-button size="mini" type="success" plain 
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button size="mini" type="primary" plain 
-                @click="handleEdit(scope.row.id)">捐赠</el-button>
-                <!-- <el-button size="mini" type="danger"  plain 
-                @click="handleDelete(scope.row.bookId)">删除</el-button> -->
+                @click="handleEdit(scope.row.id)">编辑</el-button>
+                <el-button size="mini" type="danger"  plain 
+                @click="handleDelete(scope.row.bookId)">删除</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -146,7 +145,7 @@
                 // dicChannel:this.formInline.dicChannel,
                 //bookName:this.formInline.bookName
             }
-            this.getRequest('/bookDonate/donationBookList', form).then(resp => {
+            this.postRequest('/bookDonate/crowdFundingDonateList', form).then(resp => {
                 if (resp.code == "200") {
                     this.tableData = resp.data.pageData
                     // this.tableData = resp.data.pageData;

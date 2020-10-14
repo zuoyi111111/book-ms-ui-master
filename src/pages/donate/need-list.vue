@@ -5,21 +5,8 @@
             <el-form-item label="关键字" >
                 <el-input v-model="formInline.bookName" placeholder="书籍名称"></el-input>
             </el-form-item>
-           <el-form-item label="分类" prop="bookType">
-                <el-select v-model="formInline.bookType" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in categoryOptions" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="频道" prop="dicChannel">
-                <el-select v-model="formInline.dicChannel" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in channelOptions" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSearch">查询</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="gotoAdd" >新增</el-button>
             </el-form-item>
         </el-form>
         <!--表格区-->
@@ -51,9 +38,7 @@
                 <!-- <el-button size="mini" type="success" plain 
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button size="mini" type="primary" plain 
-                @click="handleEdit(scope.row.id)">编辑</el-button>
-                <el-button size="mini" type="danger"  plain 
-                @click="handleDelete(scope.row.bookId)">删除</el-button>
+                @click="handleDonate(scope.row)">捐赠</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -98,8 +83,41 @@
         handleChapter(id){
             this.$router.push('/book/chapter-list/'+id);
         },
-        handleEdit(id) {
-            this.$router.push('/book/book-edit/'+id);
+        handleDonate(book) {
+            //this.$router.push('/book/book-edit/'+id);
+            this.$prompt('请输入捐入数量', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            inputPattern: /^[+]{0,1}(\d+)$/,
+            inputErrorMessage: '数字格式不正确'
+            }).then(({ value }) => {
+                if(value > book.haveNum){
+                    this.$message({
+                        type: 'error',
+                        message: '最多捐出'+book.haveNum+'本书'
+                    });
+                } else {
+                     this.postRequest('/bookDonate/crowdFundingDonate', {crowdFundingId:book.id, donationBookNum:Number(value)}).then(resp => {
+                        if (resp.code == 200) {
+                            this.$message({
+                                type: 'success',
+                                message: value+'本书捐赠成功！'
+                            });
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: value+'本书捐赠失败！'
+                            });
+                        }
+                    })
+                }
+       
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '取消输入'
+            });       
+            });
         },
         handleType(type) {
             let status = ""

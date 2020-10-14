@@ -51,8 +51,8 @@
             <template slot-scope="scope" >
                 <!-- <el-button size="mini" type="success" plain 
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
-                <el-button size="mini" type="primary" plain 
-                @click="handleEdit(scope.row.id)">捐赠</el-button>
+                <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="primary" plain 
+                @click="handleCheck(scope.row.id)">审核</el-button>
                 <!-- <el-button size="mini" type="danger"  plain 
                 @click="handleDelete(scope.row.bookId)">删除</el-button> -->
             </template>
@@ -99,8 +99,22 @@
         handleChapter(id){
             this.$router.push('/book/chapter-list/'+id);
         },
-        handleEdit(id) {
-            this.$router.push('/book/book-edit/'+id);
+        handleCheck(id) {     
+            this.postRequest('/bookDonate/donationBookCheck',{id:id, approveStatus: 0}).then(resp => {
+                if (resp.code == 200) {
+                    this.$message({
+                        type: 'success',
+                        message: '审核成功'
+                    });
+                    this.getListData();
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: '审核失败'
+                    });
+                }
+            }) 
+           // this.$router.push('/book/book-edit/'+id);
         },
         handleType(type) {
             let status = ""
@@ -146,7 +160,7 @@
                 // dicChannel:this.formInline.dicChannel,
                 //bookName:this.formInline.bookName
             }
-            this.getRequest('/bookDonate/donationBookList', form).then(resp => {
+            this.postRequest('/bookDonate/donationBookList', form).then(resp => {
                 if (resp.code == "200") {
                     this.tableData = resp.data.pageData
                     // this.tableData = resp.data.pageData;

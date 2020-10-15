@@ -104,16 +104,6 @@
                     </el-table-column>
                     <el-table-column prop="gmtCreate" label="评价时间" width="200" >
                     </el-table-column>
-                    <el-table-column align="center" label="操作" width="240">
-                    <template slot-scope="scope" >
-                        <!-- <el-button size="mini" type="success" plain 
-                        @click="handleChapter(scope.row.id)">章节</el-button> -->
-                        <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="primary" plain 
-                        @click="handleCheck(scope.row.id)">审核</el-button>
-                        <!-- <el-button size="mini" type="danger"  plain 
-                        @click="handleDelete(scope.row.bookId)">删除</el-button> -->
-                    </template>
-                    </el-table-column>
                 </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="watchVisible = false">确定</el-button>

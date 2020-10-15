@@ -18,20 +18,6 @@ export const menus = [
                 "icon": "",
                 "path": "/category-list",
                 "children": null
-            },
-            {
-                "id": 28,
-                "name": "字典配置",
-                "icon": "",
-                "path": "/dictionary/list",
-                "children": null
-            },
-            {
-                "id": 44,
-                "name": "小福利",
-                "icon": "",
-                "path": "/welfare/girls",
-                "children": null
             }]
     },
     {
@@ -40,13 +26,7 @@ export const menus = [
         "icon": "fa fa-gear",
         "path": "",
         "children": [
-            {
-                "id": 8,
-                "name": "部门管理",
-                "icon": "",
-                "path": "/org/dept-list",
-                "children": null
-            },
+
             {
                 "id": 10,
                 "name": "用户管理",
@@ -59,13 +39,6 @@ export const menus = [
                 "name": "角色管理",
                 "icon": "",
                 "path": "/org/role-list",
-                "children": null
-            },
-            {
-                "id": 12,
-                "name": "菜单权限",
-                "icon": "",
-                "path": "/org/permission-list",
                 "children": null
             }]
     },

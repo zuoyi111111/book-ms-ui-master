@@ -42,7 +42,7 @@
                  <el-button size="mini" type="warning" plain 
                 @click="open(scope.row)">评论</el-button>
                  <el-button size="mini" type="success" plain 
-                @click="handleCheck(scope.row.id)">查看评论</el-button>
+                @click="watchComment(scope.row.id)">查看评论</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -80,6 +80,45 @@
                 <el-button type="primary" @click="comment('commentForm')">确 定</el-button>
             </span>
             </el-dialog>
+
+           <el-dialog
+            title="查看评论"
+            :visible.sync="watchVisible"
+            width="30%"
+            >
+                 <el-table :data="tableData1" border style="width: 100%;" size="small">
+                    <template slot="empty">
+                        还没有数据呢~ (⊙︿⊙)
+                    </template>
+                    <el-table-column prop="commentType" label="用户名" width="100">
+                        <template  slot-scope="scope" >
+                            <i>{{scope.row.comment?"":"匿名用户"}}</i>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="commentContent" label="评价内容" >
+                    </el-table-column>
+                    <el-table-column label="评价" width="100" >
+                        <template  slot-scope="scope" >
+                            <i>{{handleType(scope.row.commentType)}}</i>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="gmtCreate" label="评价时间" width="200" >
+                    </el-table-column>
+                    <el-table-column align="center" label="操作" width="240">
+                    <template slot-scope="scope" >
+                        <!-- <el-button size="mini" type="success" plain 
+                        @click="handleChapter(scope.row.id)">章节</el-button> -->
+                        <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="primary" plain 
+                        @click="handleCheck(scope.row.id)">审核</el-button>
+                        <!-- <el-button size="mini" type="danger"  plain 
+                        @click="handleDelete(scope.row.bookId)">删除</el-button> -->
+                    </template>
+                    </el-table-column>
+                </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="watchVisible = false">确定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -110,7 +149,9 @@
                 commentType: [
                     { required: true, message: '请输入评论', trigger: 'blur' }
                 ],
-            }
+            },
+            watchVisible: false,
+            tableData1: []
         }
     },
     created(){
@@ -162,9 +203,9 @@
         handleType(type) {
             let status = ""
             switch(type) {
-                case 0: status = "待审批"; break;
-                case 1: status =  "通过" ; break;
-                case 2: status =  "拒绝" ; break;
+                case 0: status = "好评"; break;
+                case 1: status =  "差评" ; break;
+                case 2: status =  "中评" ; break;
             }
             return status;
         },
@@ -254,10 +295,27 @@
                 }
               })
             // this.commentVisible = false
+        },
+        watchComment(id) {
+            // let form = {
+
+            //     pageNo:this.currentPage,
+            //     pageSize:this.limit,
+            //    // bookType:this.formInline.bookType,
+            //     // dicChannel:this.formInline.dicChannel,
+            //     //bookName:this.formInline.bookName
+            // }
+            this.getRequest('/component/query', {id}).then(resp => {
+                if (resp.code == "200") {
+                    this.tableData1 = resp.data
+                    // this.tableData = resp.data.pageData;
+                   // this.total = resp.data.length
+                    this.watchVisible = true
+                }
+            })
         }
-       
     }
-     }
+}
 </script>
 
 <style scoped>

@@ -126,7 +126,7 @@ export const menus = [
                 "id": 18,
                 "name": "客服信息",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/error",
                 "children": null
             }]
     }, {
@@ -139,25 +139,25 @@ export const menus = [
                 "id": 19,
                 "name": "爱心捐赠公示",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/error",
                 "children": null
             },  {
                 "id": 20,
                 "name": "合作商家",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/error",
                 "children": null
             },  {
                 "id": 21,
                 "name": "公益事迹",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/error",
                 "children": null
             },  {
                 "id": 22,
                 "name": "志愿者",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/error",
                 "children": null
             }]
     }

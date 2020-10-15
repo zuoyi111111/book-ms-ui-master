@@ -21,6 +21,7 @@ const personalDonate = r => require.ensure([], () => r(require('@/pages/donate/p
 const needList = r => require.ensure([], () => r(require('@/pages/donate/need-list')), 'need-list');
 const releaseDonate = r => require.ensure([], () => r(require('@/pages/donate/release-donate')), 'release-donate');
 const commentList = r => require.ensure([], () => r(require('@/pages/comments/list')), 'comments-list');
+const error = r => require.ensure([], () => r(require('@/pages/example/error')), 'error');
 
 const constRouter = [
 	{
@@ -123,6 +124,12 @@ const constRouter = [
 				path: '/comments-list',
 				name: '评论列表',
 				component: commentList,
+				hidden: false 
+			},
+			{
+				path: '/error',
+				name: '错误页面',
+				component: error,
 				hidden: false 
 			}
 			

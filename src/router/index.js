@@ -20,6 +20,7 @@ const donateList = r => require.ensure([], () => r(require('@/pages/donate/donat
 const personalDonate = r => require.ensure([], () => r(require('@/pages/donate/personal-donate')), 'personal-donate');
 const needList = r => require.ensure([], () => r(require('@/pages/donate/need-list')), 'need-list');
 const releaseDonate = r => require.ensure([], () => r(require('@/pages/donate/release-donate')), 'release-donate');
+const commentList = r => require.ensure([], () => r(require('@/pages/comments/list')), 'comments-list');
 
 const constRouter = [
 	{
@@ -116,6 +117,12 @@ const constRouter = [
 				path: '/release-donate',
 				name: '发起众筹',
 				component: releaseDonate,
+				hidden: false 
+			},
+			{
+				path: '/comments-list',
+				name: '评论列表',
+				component: commentList,
 				hidden: false 
 			}
 			

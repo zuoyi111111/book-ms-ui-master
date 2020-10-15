@@ -113,7 +113,7 @@ export const menus = [
                 "id": 17,
                 "name": "留言列表",
                 "icon": "",
-                "path": "/book-list",
+                "path": "/comments-list",
                 "children": null
             }]
     }, {

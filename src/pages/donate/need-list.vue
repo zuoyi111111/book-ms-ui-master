@@ -39,6 +39,10 @@
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button size="mini" type="primary" plain 
                 @click="handleDonate(scope.row)">捐赠</el-button>
+                 <el-button size="mini" type="warning" plain 
+                @click="open(scope.row)">评论</el-button>
+                 <el-button size="mini" type="success" plain 
+                @click="handleCheck(scope.row.id)">查看评论</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -54,6 +58,28 @@
                 :total="total">
             </el-pagination>
         </div>
+        <el-dialog
+            title="评论"
+            :visible.sync="commentVisible"
+            width="30%"
+            >
+            <el-form :inline="true" :model="commentForm" :rules="commentRules" ref="commentForm">
+            <el-form-item label="评论内容" prop="commentContent">
+                <el-input v-model="commentForm.commentContent" type="textarea" placeholder="评论"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域" prop="commentType">
+                <el-radio-group v-model="commentForm.commentType">
+                    <el-radio :label="0">好评</el-radio>
+                    <el-radio :label="2">中评</el-radio>
+                    <el-radio :label="1">差评</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="commentVisible = false">取 消</el-button>
+                <el-button type="primary" @click="comment('commentForm')">确 定</el-button>
+            </span>
+            </el-dialog>
     </div>
 </template>
 
@@ -70,6 +96,20 @@
             formInline:{
                 bookName:'',
                 bookType:''
+            },
+            commentVisible: false,
+            commentForm: {
+                commentContent: '',
+                commentType: 0
+            },
+            needObject: {},
+            commentRules: {
+                commentContent: [
+                    { required: true, message: '请输入评论', trigger: 'blur' }
+                ],
+                commentType: [
+                    { required: true, message: '请输入评论', trigger: 'blur' }
+                ],
             }
         }
     },
@@ -183,9 +223,41 @@
         },
         gotoAdd(){
             this.$router.push("/book-add");
+        },
+        open(object) {
+            this.commentVisible = true
+            this.needObject = object
+        },
+        comment(dataForm){
+            console.log(this.needObject, this.commentForm)
+              this.$refs[dataForm].validate((valid) => {
+                let param = {
+                    bookNeedId: this.needObject.id,
+                    commentContent: this.commentForm.commentContent,
+                    commentType: this.commentForm.commentType
+                }
+                if (valid) {
+                    this.postRequest('/component/add', param).then(resp => {
+                        if (resp.success) {
+                            this.$message({
+                                type: 'success',
+                                message: '评论成功！！'
+                            });
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '评论成功！！'
+                            });
+                        }
+                        this.commentVisible = false
+                    })
+                }
+              })
+            // this.commentVisible = false
         }
+       
     }
-  };
+     }
 </script>
 
 <style scoped>

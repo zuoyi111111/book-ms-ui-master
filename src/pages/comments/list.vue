@@ -5,21 +5,8 @@
             <el-form-item label="关键字" >
                 <el-input v-model="formInline.bookName" placeholder="书籍名称"></el-input>
             </el-form-item>
-           <el-form-item label="分类" prop="bookType">
-                <el-select v-model="formInline.bookType" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in categoryOptions" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="频道" prop="dicChannel">
-                <el-select v-model="formInline.dicChannel" clearable placeholder="请选择" style="width:120px">
-                    <el-option v-for="item in channelOptions" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSearch">查询</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="gotoAdd" >新增</el-button>
             </el-form-item>
         </el-form>
         <!--表格区-->
@@ -27,25 +14,19 @@
             <template slot="empty">
                 还没有数据呢~ (⊙︿⊙)
             </template>
-            <el-table-column prop="donationBookName" label="捐赠图书名称" width="100">
+            <el-table-column prop="commentType" label="用户名" width="100">
+                   <template  slot-scope="scope" >
+                    <i>{{scope.row.comment?"":"匿名用户"}}</i>
+                </template>
             </el-table-column>
-            <el-table-column prop="donationBookNum" label="捐赠数量" >
+            <el-table-column prop="commentContent" label="评价内容" >
             </el-table-column>
-            <el-table-column label="捐赠类型" width="100" >
+            <el-table-column label="评价" width="100" >
                  <template  slot-scope="scope" >
-                    <i>{{scope.row.donationType==1?"个人捐赠":"众筹捐赠"}}</i>
+                    <i>{{handleType(scope.row.commentType)}}</i>
                 </template>
             </el-table-column>
-             <el-table-column prop="donationUserName" label="捐赠人姓名" width="100" >
-            </el-table-column>
-             <el-table-column prop="recipientsArea" label="接收地区" width="100" >
-            </el-table-column>
-              <el-table-column prop="recipientsUserName" label="接收人姓名" width="100" >
-            </el-table-column>
-             <el-table-column label="捐赠状态" width="100" >
-                  <template  slot-scope="scope" >
-                    <i>{{handleType(scope.row.approveStatus)}}</i>
-                </template>
+             <el-table-column prop="gmtCreate" label="评价时间" width="200" >
             </el-table-column>
             <el-table-column align="center" label="操作" width="240">
             <template slot-scope="scope" >
@@ -53,7 +34,6 @@
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="primary" plain 
                 @click="handleCheck(scope.row.id)">审核</el-button>
-                
                 <!-- <el-button size="mini" type="danger"  plain 
                 @click="handleDelete(scope.row.bookId)">删除</el-button> -->
             </template>
@@ -120,9 +100,9 @@
         handleType(type) {
             let status = ""
             switch(type) {
-                case 0: status = "待审批"; break;
-                case 1: status =  "通过" ; break;
-                case 2: status =  "拒绝" ; break;
+                case 0: status = "好评"; break;
+                case 1: status =  "差评" ; break;
+                case 2: status =  "中评" ; break;
             }
             return status;
         },
@@ -161,11 +141,11 @@
                 // dicChannel:this.formInline.dicChannel,
                 //bookName:this.formInline.bookName
             }
-            this.postRequest('/bookDonate/donationBookList', form).then(resp => {
+            this.getRequest('/component/list', form).then(resp => {
                 if (resp.code == "200") {
-                    this.tableData = resp.data.pageData
+                    this.tableData = resp.data
                     // this.tableData = resp.data.pageData;
-                    this.total = resp.data.totalCount
+                    this.total = resp.data.length
                 }
             })
         },

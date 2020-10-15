@@ -52,8 +52,9 @@
                 <!-- <el-button size="mini" type="success" plain 
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="primary" plain 
-                @click="handleCheck(scope.row.id)">审核</el-button>
-                
+                @click="handleCheck(scope.row.id, 1)">通过审核</el-button>
+                  <el-button v-if="scope.row.approveStatus!==1 && scope.row.approveStatus!==2" size="mini" type="danger" plain 
+                @click="handleCheck(scope.row.id, 2)">拒绝审核</el-button>
                 <!-- <el-button size="mini" type="danger"  plain 
                 @click="handleDelete(scope.row.bookId)">删除</el-button> -->
             </template>
@@ -100,8 +101,8 @@
         handleChapter(id){
             this.$router.push('/book/chapter-list/'+id);
         },
-        handleCheck(id) {     
-            this.postRequest('/bookDonate/donationBookCheck',{id:id, approveStatus: 0}).then(resp => {
+        handleCheck(id, type) {     
+            this.postRequest('/bookDonate/donationBookCheck',{id:id, approveStatus: type}).then(resp => {
                 if (resp.code == 200) {
                     this.$message({
                         type: 'success',

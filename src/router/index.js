@@ -6,6 +6,7 @@ Vue.use(Router)
 
 // 静态路由
 const login = r => require.ensure([], () => r(require('@/pages/login')), 'login');
+const register = r => require.ensure([], () => r(require('@/pages/register')), 'register');
 const home = r => require.ensure([], () => r(require('@/pages/home')), 'home');
 const userinfo = r => require.ensure([], () => r(require('@/pages/user/info')), 'userinfo');
 const pwd = r => require.ensure([], () => r(require('@/pages/user/password')), 'pwd');
@@ -22,6 +23,8 @@ const needList = r => require.ensure([], () => r(require('@/pages/donate/need-li
 const releaseDonate = r => require.ensure([], () => r(require('@/pages/donate/release-donate')), 'release-donate');
 const commentList = r => require.ensure([], () => r(require('@/pages/comments/list')), 'comments-list');
 const error = r => require.ensure([], () => r(require('@/pages/example/error')), 'error');
+const userList = r => require.ensure([], () => r(require('@/pages/user/user-list')), 'user-list');
+const roleList = r => require.ensure([], () => r(require('@/pages/user/role-list')), 'role-list');
 
 const constRouter = [
 	{
@@ -29,6 +32,13 @@ const constRouter = [
 		name: '登录页',
 		component: login,
 		hidden: true
+	},
+
+	{
+		path: '/register',
+		name: '注册页',
+		component: register,
+		//hidden: true
 	},
 	{
 		path: '/home',
@@ -131,7 +141,20 @@ const constRouter = [
 				name: '错误页面',
 				component: error,
 				hidden: false 
-			}
+			},
+			{
+				path: '/user-list',
+				name: '用户列表',
+				component: userList,
+				hidden: false 
+			},
+			{
+				path: '/role-list',
+				name: '角色列表',
+				component: roleList,
+				hidden: false 
+			},
+			
 			
 			
 		]

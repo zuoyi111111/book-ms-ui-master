@@ -6,25 +6,32 @@
             <div style="width:42%;float:left">
                 <el-form :model="loginForm" :rules="rules" ref="loginForm"   
                     v-loading="loading"
-                    element-loading-text="正在登录..."
+                    element-loading-text="正在注册..."
                     element-loading-spinner="el-icon-loading"
                     element-loading-background="rgba(0, 0, 0, 0.8)"
                     class="loginContainer">
-                    <h3 class="loginTitle">欢迎使用爱心图书众筹系统</h3>
-                    <el-form-item prop="userId">
-                        <el-input v-model="loginForm.loginName" placeholder="用户名" prefix-icon="el-icon-s-custom"></el-input>
+                    <h3 class="loginTitle">注册</h3>
+                    <el-form-item prop="userName">
+                        <el-input v-model="loginForm.userName" placeholder="用户名" prefix-icon="el-icon-s-custom"></el-input>
                     </el-form-item>
-                    <el-form-item prop="pwd">
+                    <el-form-item prop="nickName">
+                        <el-input v-model="loginForm.nickName" placeholder="姓名" prefix-icon="el-icon-s-custom"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="password">
                         <el-input type="password" placeholder="密码" v-model="loginForm.password"  @keydown.enter.native="submitForm('loginForm')" prefix-icon="el-icon-key"></el-input>
                     </el-form-item>
-                     <div style="display:flex;padding-bottom: 30px;justify-content: space-between;" >
-                        <div style="text-align:right;" >
-                            <el-button type="primary" @click="toRegister()" class="submit_btn" size="medium" style="display:inline;">注册</el-button>
-                        </div>
-                        <div style="text-align:right">
-                            <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn" size="medium">登录</el-button>
-                        </div>
-                     </div>
+                     <el-form-item prop="againPassword">
+                        <el-input type="password" placeholder="确认密码" v-model="loginForm.againPassword"  @keydown.enter.native="submitForm('loginForm')" prefix-icon="el-icon-key"></el-input>
+                    </el-form-item>
+                     <el-form-item prop="phone">
+                        <el-input v-model="loginForm.phone" placeholder="电话" prefix-icon="el-icon-phone-outline"></el-input>
+                    </el-form-item>
+                     <el-form-item prop="email">
+                        <el-input v-model="loginForm.email" placeholder="邮件" prefix-icon="el-icon-eleme"></el-input>
+                    </el-form-item>
+                    <el-form-item style="text-align:right">
+                        <el-button type="primary" class="submit_btn" @click="submitForm('loginForm')" size="medium">注册</el-button>
+                    </el-form-item>
                 </el-form>
             </div>
         </div>
@@ -42,7 +49,7 @@
                     password: '111111'
                 },
                 rules: {
-                    loginName: [
+                    userName: [
                         { required: true, message: '请输入用户名', trigger: 'blur' },
                     ],
                     password: [
@@ -67,20 +74,32 @@
             document.title = "爱心图书众筹系统"
         },
         methods:{
-            toRegister() {
-                this.$router.replace('/register');
-            },
             submitForm(loginForm) {
                 this.$refs[loginForm].validate((valid) => {
                     if (valid) {
+                        if (this.loginForm.password !== this.loginForm.againPassword) {
+                             this.$message({
+                                type: 'error',
+                                message: '两次密码输入不一致，请重新输入'
+                            });
+                            return
+                        }
                         this.loading = true;
-                        this.getRequest('/login.json', this.loginForm).then(resp => {
+                        this.postRequest('/register.json', this.loginForm).then(resp => {
                             this.loading = false;
                             if (resp.success) {
-                                this.db.save("USER", resp.data);
+                                //this.db.save("USER", resp.data);
                                 let path = this.$route.query.redirect;
-                               
-                                this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
+                                this.$message({
+                                    type: 'success',
+                                    message: '注册成功！！'
+                                });
+                                this.$router.replace((path == '/' || path == undefined) ? '/' : path);
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: '注册失败！！'
+                                });
                             }
                         })
                     } else {

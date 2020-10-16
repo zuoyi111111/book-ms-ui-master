@@ -31,14 +31,14 @@ export const menus = [
                 "id": 10,
                 "name": "用户管理",
                 "icon": "",
-                "path": "/org/user-list",
+                "path": "/user-list",
                 "children": null
             },
             {
                 "id": 11,
                 "name": "角色管理",
                 "icon": "",
-                "path": "/org/role-list",
+                "path": "/role-list",
                 "children": null
             }]
     },

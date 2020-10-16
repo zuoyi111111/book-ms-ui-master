@@ -1,7 +1,7 @@
 <!--  -->
 <template>
     <div class="content">
-        系统错误，请联系管理员： XXX_XXXX_0000
+        请联系管理员： XXX_XXXX_0000
     </div>
 </template>
 

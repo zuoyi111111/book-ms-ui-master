@@ -162,10 +162,10 @@
             inputPattern: /^[+]{0,1}(\d+)$/,
             inputErrorMessage: '数字格式不正确'
             }).then(({ value }) => {
-                if(value > book.haveNum){
+                if(value < 1){
                     this.$message({
                         type: 'error',
-                        message: '最多捐出'+book.haveNum+'本书'
+                        message: '至少捐出1本书'
                     });
                 } else {
                      this.postRequest('/bookDonate/crowdFundingDonate', {crowdFundingId:book.id, donationBookNum:Number(value)}).then(resp => {

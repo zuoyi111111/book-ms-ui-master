@@ -25,10 +25,33 @@
              <el-table-column align="center" label="操作" width="180">
                 <template slot-scope="scope" >
                     <el-button size="mini" type="primary" plain 
-                    @click="handleEdit(scope.row.id)">分配角色</el-button>
+                    @click="open(scope.row.id)">分配角色</el-button>
                 </template>
              </el-table-column>
         </el-table>
+           <el-dialog
+            title="分配角色"
+            :visible.sync="roleVisible"
+            width="30%"
+            >
+            <el-form  :model="roleForm" :rules="roleRules" ref="roleForm">
+            <el-form-item label="角色名称" prop="roleId">
+                 <el-select v-model="roleForm.roleId" placeholder="请选择角色">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.id"
+                    :label="item.roleName"
+                    :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="commentVisible = false">取 消</el-button>
+                <el-button type="primary" @click="comment('commentForm')">确 定</el-button>
+            </span>
+        </el-dialog>
+
         <!--分页区-->
         <div class="Pagination" style="text-align: left; margin-top: 10px;">
             <el-pagination
@@ -54,23 +77,40 @@
             limit: 10,
             total: 0,
             currentPage: 1,
-            formInline:{
-                bookName:'',
-                bookType:''
-            }
+            roleForm: {},
+            roleRules: {
+                roleId: [
+                    { required: true, message: '请输入选择角色', trigger: 'blur' }
+                ],
+            },
+            roleVisible: false,
+            formInline:{},
+            options: []
         }
     },
     created(){
-        console.log(11)
         this.getListData();
-        this.getDictionaryOptions("category");
-        // this.getDictionaryOptions("channel");
+        this.getSelect();
     },
     methods:{
-        handleChapter(id){
-            this.$router.push('/book/chapter-list/'+id);
+        open(id){
+           this.roleVisible = true
         },
-        handleCheck(id) {     
+        getSelect() {
+              let form = {
+                pageNo:this.currentPage,
+                pageSize:this.limit,
+               // bookType:this.formInline.bookType,
+                // dicChannel:this.formInline.dicChannel,
+                //bookName:this.formInline.bookName
+            }
+            this.getRequest('/queryRoleList', form).then(resp => {
+                if (resp.code == "200") {
+                    this.options = resp.data
+                }
+            })
+        },
+        handleRole(id) {     
             this.postRequest('/bookDonate/donationBookCheck',{id:id, approveStatus: 0}).then(resp => {
                 if (resp.code == 200) {
                     this.$message({
@@ -95,33 +135,6 @@
                 case 2: status =  "中评" ; break;
             }
             return status;
-        },
-        handleDelete(id) {
-            this.$confirm('确定要删除吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.getRequest('/bookInfo/deleteBook.json',{id:id}).then(resp => {
-                    if (resp.code == 200) {
-                        this.getListData();
-                    }
-                })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消操作'
-                });
-            });
-            
-        },
-        getDictionaryOptions(type){
-            // 字典数据源
-            this.postRequest('/bookType/getBookTypeInfo.json', {pageNo:1, pageSize:100}).then(resp => {
-                if (resp.code == 200) {
-                    this.categoryOptions = resp.data.pageData;
-                }
-            })
         },
         getListData(){
             let form = {

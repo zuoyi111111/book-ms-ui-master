@@ -124,7 +124,7 @@ export const menus = [
                 "id": 21,
                 "name": "公益事迹",
                 "icon": "",
-                "path": "/error",
+                "path": "/news-info",
                 "children": null
             },  {
                 "id": 22,

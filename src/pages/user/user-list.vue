@@ -47,8 +47,8 @@
             </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="commentVisible = false">取 消</el-button>
-                <el-button type="primary" @click="comment('commentForm')">确 定</el-button>
+                <el-button @click="roleVisible = false">取 消</el-button>
+                <el-button type="primary" @click="role('roleForm')">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -85,7 +85,8 @@
             },
             roleVisible: false,
             formInline:{},
-            options: []
+            options: [],
+            adminId: 0
         }
     },
     created(){
@@ -95,6 +96,7 @@
     methods:{
         open(id){
            this.roleVisible = true
+           this.adminId = id
         },
         getSelect() {
               let form = {
@@ -164,6 +166,30 @@
         },
         gotoAdd(){
             this.$router.push("/book-add");
+        },
+        role(dataForm) {
+            this.$refs[dataForm].validate((valid) => {
+            let param = {
+                id: this.adminId,
+                roleId: this.roleForm.roleId,
+            }
+            if (valid) {
+                this.getRequest('/assigningRoles', param).then(resp => {
+                    if (resp.success) {
+                        this.$message({
+                            type: 'success',
+                            message: '分配成功！！'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '分配失败！！'
+                        });
+                    }
+                    this.roleVisible = false
+                })
+            }
+            })
         }
     }
   };

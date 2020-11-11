@@ -260,7 +260,6 @@
             this.needObject = object
         },
         comment(dataForm){
-            console.log(this.needObject, this.commentForm)
               this.$refs[dataForm].validate((valid) => {
                 let param = {
                     bookNeedId: this.needObject.id,
@@ -277,7 +276,7 @@
                         } else {
                             this.$message({
                                 type: 'error',
-                                message: '评论成功！！'
+                                message: '评论失败！！'
                             });
                         }
                         this.commentVisible = false

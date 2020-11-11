@@ -25,6 +25,7 @@ const commentList = r => require.ensure([], () => r(require('@/pages/comments/li
 const error = r => require.ensure([], () => r(require('@/pages/example/error')), 'error');
 const userList = r => require.ensure([], () => r(require('@/pages/user/user-list')), 'user-list');
 const roleList = r => require.ensure([], () => r(require('@/pages/user/role-list')), 'role-list');
+const newsInfo = r => require.ensure([], () => r(require('@/pages/news')), 'news-info');
 
 const constRouter = [
 	{
@@ -154,8 +155,12 @@ const constRouter = [
 				component: roleList,
 				hidden: false 
 			},
-			
-			
+			{
+				path: '/news-info',
+				name: '公益捐赠',
+				component: newsInfo,
+				hidden: false 
+			},
 			
 		]
 	},

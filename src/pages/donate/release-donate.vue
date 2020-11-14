@@ -17,6 +17,8 @@
              <el-form-item label="描述" prop="needDesc">
                 <el-input v-model="dataForm.needDesc"></el-input>
             </el-form-item>
+             <el-form-item label="众筹有效期30天">
+             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('dataForm')">保存</el-button>
                 <el-button @click="$router.back(-1)">返回</el-button>

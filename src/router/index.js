@@ -26,6 +26,7 @@ const error = r => require.ensure([], () => r(require('@/pages/example/error')),
 const userList = r => require.ensure([], () => r(require('@/pages/user/user-list')), 'user-list');
 const roleList = r => require.ensure([], () => r(require('@/pages/user/role-list')), 'role-list');
 const newsInfo = r => require.ensure([], () => r(require('@/pages/news')), 'news-info');
+const newsHome = r => require.ensure([], () => r(require('@/pages/home/NewsHome')), 'news-home');
 
 const constRouter = [
 	{
@@ -161,6 +162,12 @@ const constRouter = [
 				component: newsInfo,
 				hidden: false 
 			},
+			{
+				path: '/news-home',
+				name: '新闻首页',
+				component: newsHome,
+				hidden: false 
+			   },
 			
 		]
 	},

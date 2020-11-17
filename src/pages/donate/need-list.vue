@@ -31,6 +31,11 @@
             </el-table-column>
               <el-table-column prop="needDesc" label="描述" >
             </el-table-column>
+             <el-table-column label="众筹截止日期" width="100" >
+                 <template  slot-scope="scope" >
+                    <i>{{dealMonth(scope.row.gmtCreate)}}</i>
+                </template>
+            </el-table-column>
             <el-table-column prop="statusDesc" label="状态" width="100" >
             </el-table-column>
             <el-table-column align="center" label="操作" width="240">
@@ -38,7 +43,7 @@
                 <!-- <el-button size="mini" type="success" plain 
                 @click="handleChapter(scope.row.id)">章节</el-button> -->
                 <el-button size="mini" type="primary" plain 
-                @click="handleDonate(scope.row)">捐赠</el-button>
+                @click="handleDonate(scope.row)" :disabled="dealToday(dealMonth(scope.row.gmtCreate)) ? true : false">捐赠</el-button>
                  <el-button size="mini" type="warning" plain 
                 @click="open(scope.row)">评论</el-button>
                  <el-button size="mini" type="success" plain 
@@ -113,6 +118,7 @@
 </template>
 
 <script>
+import {addMonths, dateFormat, compareDate} from '../../utils/config'
   export default {
     data() {
         return {
@@ -146,13 +152,23 @@
     },
     created(){
         console.log(11)
+        this.dealToday()
         this.getListData();
         this.getDictionaryOptions("category");
         // this.getDictionaryOptions("channel");
     },
     methods:{
+        dealMonth(data) {
+           return addMonths(data, 1)
+        },
         handleChapter(id){
             this.$router.push('/book/chapter-list/'+id);
+        },
+        dealToday(create) {
+            var date = new Date();
+            console.log(dateFormat('YYYY-mm-dd', date))
+            const result = compareDate(dateFormat('YYYY-mm-dd', date), create)
+            return result
         },
         handleDonate(book) {
             //this.$router.push('/book/book-edit/'+id);

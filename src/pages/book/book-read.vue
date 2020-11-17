@@ -10,7 +10,7 @@
                 v-loading.fullscreen.lock="fullscreenLoading" >
                     上一章
                 </el-button>
-                <el-button type="primary" @click="gotoAuthorDetails()">书籍信息</el-button></el-button>
+                <el-button type="primary" @click="gotoAuthorDetails()">书籍信息</el-button>
                 <el-button type="primary" @click="handleNexRead()"
                 v-loading.fullscreen.lock="fullscreenLoading" >
                     下一章<i class="el-icon-arrow-right el-icon--right"></i>

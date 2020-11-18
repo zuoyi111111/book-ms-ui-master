@@ -1,4 +1,4 @@
-export const menus = [
+export const adminMenus = [
     {
         "id": 1,
         "name": "图书管理",
@@ -48,6 +48,123 @@ export const menus = [
                 "path": "/role-list",
                 "children": null
             }]
+    },
+    {
+        "id": 3,
+        "name": "图书捐赠",
+        "icon": "el-icon-s-management",
+        "path": "",
+        "children": [
+            {
+                "id": 12,
+                "name": "众筹图书列表",
+                "icon": "",
+                "path": "/need-list",
+                "children": null
+            },
+            {
+                "id": 13,
+                "name": "发起众筹图书",
+                "icon": "",
+                "path": "/release-donate",
+                "children": null
+            },
+            {
+                "id": 14,
+                "name": "发起个人捐赠",
+                "icon": "",
+                "path": "/personal-donate",
+                "children": null
+            },
+            {
+                "id": 15,
+                "name": "捐赠列表",
+                "icon": "",
+                "path": "/donate-list",
+                "children": null
+            }]
+    }, {
+        "id": 4,
+        "name": "众筹留言板",
+        "icon": "el-icon-s-management",
+        "path": "",
+        "children": [
+            {
+                "id": 17,
+                "name": "留言列表",
+                "icon": "",
+                "path": "/comments-list",
+                "children": null
+            }]
+    }, {
+        "id": 5,
+        "name": "服务模块",
+        "icon": "el-icon-s-management",
+        "path": "",
+        "children": [
+            {
+                "id": 18,
+                "name": "客服信息",
+                "icon": "",
+                "path": "/error",
+                "children": null
+            }]
+    }, {
+        "id": 6,
+        "name": "新闻模块",
+        "icon": "el-icon-s-management",
+        "path": "",
+        "children": [
+            {
+                "id": 19,
+                "name": "爱心捐赠公示",
+                "icon": "",
+                "path": "/error",
+                "children": null
+            },  {
+                "id": 20,
+                "name": "合作商家",
+                "icon": "",
+                "path": "/error",
+                "children": null
+            },  {
+                "id": 21,
+                "name": "公益事迹",
+                "icon": "",
+                "path": "/news-info",
+                "children": null
+            },  {
+                "id": 22,
+                "name": "志愿者",
+                "icon": "",
+                "path": "/error",
+                "children": null
+            }]
+    }
+]
+
+export const userMenus = [
+    {
+        "id": 1,
+        "name": "图书管理",
+        "icon": "el-icon-s-management",
+        "path": "",
+        "children": [
+            {
+                "id": 18,
+                "name": "图书首页",
+                "icon": "",
+                "path": "/home",
+                "children": null
+            },
+            {
+                "id": 18,
+                "name": "图书列表",
+                "icon": "",
+                "path": "/book-list",
+                "children": null
+            },
+        ]
     },
     {
         "id": 3,

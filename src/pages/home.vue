@@ -115,11 +115,11 @@
 </template>
 
 <script>
-import { menus, author } from '../utils/dictionary'
+import { adminMenus, author, userMenus } from '../utils/dictionary'
     export default {
         data() {
             return {
-                menus: menus,
+                menus: [],
                 books:[],
                 authors: author,
                 user: this.db.get("USER"),
@@ -131,11 +131,9 @@ import { menus, author } from '../utils/dictionary'
             }
         },
         mounted() {
-             console.log(1111)
             document.title = "爱心图书众筹系统"
             //this.head = this.config.baseApi + "/" + this.db.get("USER").headImgUrl;
-           // this.getUserMenu();
-           console.log(1111)
+            this.getUserMenu();
             this.getNewBooks();
             //this.getRankingAuthors();
         },
@@ -196,9 +194,14 @@ import { menus, author } from '../utils/dictionary'
             },
             getUserMenu() {
                 // 获取用户菜单
-                this.getRequest('/system/org/permission/get-user-menus', {}).then(resp => {
+                this.getRequest('/currentUser.json ', {}).then(resp => {
                     if (resp.code && resp.code == 200) {
                         this.menus = resp.data;
+                        if (resp.data === 'user') {
+                            this.menus = userMenus
+                        } else if (resp.data === 'admin') {
+                            this.menus = adminMenus
+                        }
                     }
                 })
             },

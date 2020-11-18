@@ -11,10 +11,13 @@ import {getRequest} from "./utils/request"
 import router from "./router"
 import db from "./utils/sessionStorage"
 import * as config from "./utils/config"
+import vueSwiper from 'vue-awesome-swiper'  //引入vue-awesome-swiper
+import 'swiper/dist/css/swiper.css'  //引入样式
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(iconPicker)
+Vue.use(vueSwiper)  //使用插件
 
 Vue.prototype.db = db
 Vue.prototype.config = config

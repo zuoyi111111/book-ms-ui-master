@@ -7,6 +7,13 @@ export const menus = [
         "children": [
             {
                 "id": 18,
+                "name": "图书首页",
+                "icon": "",
+                "path": "/home",
+                "children": null
+            },
+            {
+                "id": 18,
                 "name": "图书列表",
                 "icon": "",
                 "path": "/book-list",

@@ -80,7 +80,7 @@
                                 this.db.save("USER", resp.data);
                                 let path = this.$route.query.redirect;
                                
-                                this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
+                                this.$router.replace((path == '/' || path == undefined) ? '/news-home' : path);
                             }
                         })
                     } else {
